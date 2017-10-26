@@ -1,5 +1,5 @@
 # Forca Distribuida TCP
-Projeto de jogo de forca distribuído utilizando TCP e a ide Netbeans.
+Projeto de jogo de forca distribuído utilizando TCP e a IDE Netbeans.
 ## Get Start
 Clone ou faça o Download do projeto em .zip (via terminal/manual) para sua maquina.
 - Clone:
@@ -16,7 +16,8 @@ Clone ou faça o Download do projeto em .zip (via terminal/manual) para sua maqu
   - Descompacte e abra a pasta do projeto:
     ```
     unzip ForcaDistribuidaTCP-master.zip
-    cd ForcaDistribuidaTCP-master/
     ```
+## Passos Para Execução:
+  Abra o projeto com a IDE Netbeans.
 ## Autor
 [Gabriel Negrão Silva](https://github.com/itsgnegrao), [Jennifer Izabel](https://github.com/JenniferIzabel).
