@@ -1,4 +1,4 @@
-# 8-Pyzzle
+# Forca TCP Distribuida
 Projeto de jogo de forca distribuído utilizando TCP e a ide Netbeans.
 ## Get Start
 Clone ou faça o Download do projeto em .zip (via terminal/manual) para sua maquina.
