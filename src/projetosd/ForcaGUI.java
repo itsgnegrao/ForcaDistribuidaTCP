@@ -14,6 +14,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class ForcaGUI extends javax.swing.JFrame {
@@ -23,16 +24,29 @@ public class ForcaGUI extends javax.swing.JFrame {
     private static int porta; // porta fornecida pela interface
     private static TCPClient client; //cliente para alocação da classe controladora
     private static ArrayList<String> reserved; //palavras de requisições reservadads
+    private String Apelido;
     
-    public ForcaGUI() {
+    public ForcaGUI() throws InterruptedException {
+        
+        Apelido = JOptionPane.showInputDialog(rootPane, "Digite o seu Apelido:", "Adicionar Apelido", 3);
+        
+        client = new TCPClient(this, "127.0.0.1", 7896);  // armazena conexão do cliente
+ 
+        
         initComponents();
         
-        //seta a visibilidade dos campos
-        areaMsg.setEnabled(false); 
+        
+        labelApelido.setText(Apelido);
+        
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.exibeMsg("Bem vindo: "+Apelido+"\nAguardando Adversário...\n");
+        
         textMsg.setEnabled(false);
         btnEnviar.setEnabled(false);
-        btnSair.setEnabled(false);
-        
+        textLetra.setEnabled(false);
+        btnEnviar1.setEnabled(false);
+        areaForca.setEnabled(false);
+       
         //inicializa a lista de palavras reservadas
         reserved = new ArrayList<>();
         
@@ -46,6 +60,15 @@ public class ForcaGUI extends javax.swing.JFrame {
 
     //Funcao para exibir uma mensagens na tela
     public synchronized void exibeMsg(String msg){
+        if(msg.equals("Par encontrado!\n")){
+            client.EnviaMsg("FOMAR PAR"+Apelido);
+            textMsg.setEnabled(true);
+            btnEnviar.setEnabled(true);
+            textLetra.setEnabled(true);
+            btnEnviar1.setEnabled(true);
+            areaForca.setEnabled(true);
+        }
+        
         areaMsg.append(msg);             
         textMsg.setText("");
         textMsg.requestFocus();
@@ -72,39 +95,28 @@ public class ForcaGUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel3 = new javax.swing.JLabel();
-        textApelido = new javax.swing.JTextField();
-        textIP = new javax.swing.JTextField();
-        textPorta = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         areaMsg = new javax.swing.JTextArea();
         textMsg = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
-        btnSair = new javax.swing.JButton();
+        labelApelido = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        btnEntrar = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        areaForca = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
+        textLetra = new javax.swing.JTextField();
+        btnEnviar1 = new javax.swing.JButton();
+        labelApelido1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel3.setText("Apelido");
-
-        textApelido.setText("Negrao");
-
-        textIP.setEditable(false);
-        textIP.setText("127.0.0.1");
-
-        textPorta.setText("7896");
-        textPorta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                textPortaActionPerformed(evt);
-            }
-        });
+        setTitle("Jogo da Forca");
 
         areaMsg.setEditable(false);
         areaMsg.setColumns(20);
+        areaMsg.setLineWrap(true);
         areaMsg.setRows(5);
-        areaMsg.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mensagens", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        areaMsg.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CHAT", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         areaMsg.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(areaMsg);
 
@@ -121,23 +133,38 @@ public class ForcaGUI extends javax.swing.JFrame {
             }
         });
 
-        btnSair.setText("Sair do Chat");
-        btnSair.addActionListener(new java.awt.event.ActionListener() {
+        labelApelido.setFont(new java.awt.Font("Noto Sans", 0, 20)); // NOI18N
+        labelApelido.setText("Qualquer um");
+
+        jLabel1.setFont(new java.awt.Font("Noto Sans", 1, 24)); // NOI18N
+        jLabel1.setText("Apelido:");
+
+        areaForca.setEditable(false);
+        areaForca.setColumns(20);
+        areaForca.setRows(5);
+        areaForca.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FORCA", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        areaForca.setRequestFocusEnabled(false);
+        jScrollPane2.setViewportView(areaForca);
+
+        jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLabel2.setText("Letra:");
+
+        textLetra.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        textLetra.setMinimumSize(new java.awt.Dimension(20, 40));
+
+        btnEnviar1.setText("ENVIAR");
+        btnEnviar1.setPreferredSize(new java.awt.Dimension(55, 40));
+        btnEnviar1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSairActionPerformed(evt);
+                btnEnviar1ActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("IP:");
+        labelApelido1.setFont(new java.awt.Font("Noto Sans", 0, 20)); // NOI18N
+        labelApelido1.setText("Qualquer um");
 
-        btnEntrar.setText("Conectar ao Chat");
-        btnEntrar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEntrarActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("Porta");
+        jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 24)); // NOI18N
+        jLabel3.setText("DICA:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -145,61 +172,59 @@ public class ForcaGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnEnviar1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(labelApelido)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(labelApelido1))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(textApelido, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(textIP, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jLabel2)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(224, Short.MAX_VALUE))
+                            .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(textApelido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(textIP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelApelido)
+                    .addComponent(jLabel3)
+                    .addComponent(labelApelido1))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnviar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSair)
-                    .addComponent(btnEntrar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEnviar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void textPortaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPortaActionPerformed
-
-    }//GEN-LAST:event_textPortaActionPerformed
 
     private void textMsgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textMsgKeyPressed
         if (evt.getKeyCode() == VK_ENTER){
@@ -209,52 +234,14 @@ public class ForcaGUI extends javax.swing.JFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         if(reserved.contains(textMsg.getText())){
-            client.EnviaMsg(formatString(textApelido.getText(),textMsg.getText(),false));
+            client.EnviaMsg(formatString(Apelido,textMsg.getText(),false));
         }
-        else client.EnviaMsg(formatString(textApelido.getText(),textMsg.getText(),true));
+        else client.EnviaMsg(formatString(Apelido,textMsg.getText(),true));
     }//GEN-LAST:event_btnEnviarActionPerformed
 
-    private void btnSairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSairActionPerformed
-        try {
-            //seta visibilidaded dos campos
-            areaMsg.setEnabled(false);
-            textMsg.setEnabled(false);
-            textApelido.setEditable(true);
-            textIP.setEditable(true);
-            textPorta.setEditable(true);
-            btnEntrar.setEnabled(true);
-            btnSair.setEnabled(false);
-            
-            //esvazia area de msg
-            areaMsg.setText("");
-            
-            //ENVIA PALAVRA EXIT PARA FINALIZAR A CONEXÃO
-            client.EnviaMsg("EXIT");
-
-        } catch (Throwable ex) {
-            Logger.getLogger(ForcaGUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_btnSairActionPerformed
-
-    private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        //seta visibilidade dos campos
-        areaMsg.setEnabled(true);
-        textMsg.setEnabled(true);
-        btnEnviar.setEnabled(true);
-        btnEntrar.setEnabled(false);
-        btnSair.setEnabled(true);
-        textApelido.setEditable(false);
-        textIP.setEditable(false);
-        textPorta.setEditable(false);
-        textMsg.setText("");
-        textMsg.requestFocus();
-        
-        //Cria nova conexão cm o servidor
-        ip = new String(textIP.getText());
-        porta = Integer.parseInt(textPorta.getText().toString());
-        client = new TCPClient(this, ip, porta);  // armazena conexão do cliente
-
-    }//GEN-LAST:event_btnEntrarActionPerformed
+    private void btnEnviar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEnviar1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,23 +273,28 @@ public class ForcaGUI extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ForcaGUI().setVisible(true);
+                try {
+                    new ForcaGUI().setVisible(true);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(ForcaGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea areaForca;
     private javax.swing.JTextArea areaMsg;
-    private javax.swing.JButton btnEntrar;
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JButton btnSair;
+    private javax.swing.JButton btnEnviar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField textApelido;
-    private javax.swing.JTextField textIP;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel labelApelido;
+    private javax.swing.JLabel labelApelido1;
+    private javax.swing.JTextField textLetra;
     private static javax.swing.JTextField textMsg;
-    private static javax.swing.JTextField textPorta;
     // End of variables declaration//GEN-END:variables
 }
