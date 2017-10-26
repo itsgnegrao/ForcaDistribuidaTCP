@@ -1,4 +1,4 @@
-/** @ChatMulticastGUI: Interface Swing para o cliente entre o Cliente e o servidor
+/** @ForcaGUI: Interface Swing para o jogo da Forca
  *
  * Universidade Tecnológica Federal do Paraná - UTFPR-CM
  * @Autor: Gabriel Negrão Silva
@@ -16,7 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JTextField;
 
-public class ChatMulticastGUI extends javax.swing.JFrame {
+public class ForcaGUI extends javax.swing.JFrame {
 
     private static Socket socketCli; //socket do cliente
     private static String ip; //ip fornecido pela Interface
@@ -24,11 +24,7 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
     private static TCPClient client; //cliente para alocação da classe controladora
     private static ArrayList<String> reserved; //palavras de requisições reservadads
     
-    
-    /**
-     * Cria novo formilario e inicializa os componentes
-     */
-    public ChatMulticastGUI() throws UnknownHostException {
+    public ForcaGUI() {
         initComponents();
         
         //seta a visibilidade dos campos
@@ -48,13 +44,13 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
         reserved.add("FILES");
     }
 
-     //Funcao para exibir uma mensagens na tela
-     public synchronized void exibeMsg(String msg){
+    //Funcao para exibir uma mensagens na tela
+    public synchronized void exibeMsg(String msg){
         areaMsg.append(msg);             
         textMsg.setText("");
         textMsg.requestFocus();
-     }
-     
+    }
+    
      //funcao de formatacao da string de mensagem para adicionar apelido
      //variavel 'flag' corresponde ao formato
     public synchronized String formatString(String apelido, String msg, boolean flag){
@@ -71,13 +67,11 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
         
         return msg_format;
     }
-    
+     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         textApelido = new javax.swing.JTextField();
         textIP = new javax.swing.JTextField();
@@ -87,14 +81,11 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
         textMsg = new javax.swing.JTextField();
         btnEnviar = new javax.swing.JButton();
         btnSair = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         btnEntrar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Chat Java Multicast");
-
-        jLabel1.setText("IP:");
-
-        jLabel2.setText("Porta");
 
         jLabel3.setText("Apelido");
 
@@ -137,6 +128,8 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setText("IP:");
+
         btnEntrar.setText("Conectar ao Chat");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,38 +137,38 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Porta");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(textMsg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 412, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textApelido, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textIP, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(btnEntrar, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(btnSair, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(textApelido, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel1)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(textIP, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel2)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(textPorta, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(224, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,6 +197,16 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void textPortaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPortaActionPerformed
+
+    }//GEN-LAST:event_textPortaActionPerformed
+
+    private void textMsgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textMsgKeyPressed
+        if (evt.getKeyCode() == VK_ENTER){
+            btnEnviar.doClick();
+        }
+    }//GEN-LAST:event_textMsgKeyPressed
+
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         if(reserved.contains(textMsg.getText())){
             client.EnviaMsg(formatString(textApelido.getText(),textMsg.getText(),false));
@@ -229,12 +232,11 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
             client.EnviaMsg("EXIT");
 
         } catch (Throwable ex) {
-            Logger.getLogger(ChatMulticastGUI.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ForcaGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSairActionPerformed
 
     private void btnEntrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntrarActionPerformed
-        
         //seta visibilidade dos campos
         areaMsg.setEnabled(true);
         textMsg.setEnabled(true);
@@ -251,20 +253,12 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
         ip = new String(textIP.getText());
         porta = Integer.parseInt(textPorta.getText().toString());
         client = new TCPClient(this, ip, porta);  // armazena conexão do cliente
-        
-        
+
     }//GEN-LAST:event_btnEntrarActionPerformed
 
-    private void textMsgKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textMsgKeyPressed
-        if (evt.getKeyCode() == VK_ENTER){
-            btnEnviar.doClick();
-        }
-    }//GEN-LAST:event_textMsgKeyPressed
-
-    private void textPortaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textPortaActionPerformed
-
-    }//GEN-LAST:event_textPortaActionPerformed
-
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -279,27 +273,20 @@ public class ChatMulticastGUI extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChatMulticastGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChatMulticastGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChatMulticastGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChatMulticastGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ForcaGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                try {
-                    new ChatMulticastGUI().setVisible(true);
-                } catch (UnknownHostException ex) {
-                    Logger.getLogger(ChatMulticastGUI.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                new ForcaGUI().setVisible(true);
             }
         });
     }
