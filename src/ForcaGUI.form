@@ -33,7 +33,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="textLetra" min="-2" pref="56" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="btnEnviar1" min="-2" pref="91" max="-2" attributes="0"/>
+                      <Component id="btnEnviarLetra" min="-2" pref="91" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
@@ -78,14 +78,12 @@
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="textMsg" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                      <Group type="103" alignment="3" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="textLetra" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
-                          <Component id="btnEnviar1" max="32767" attributes="0"/>
-                      </Group>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="textLetra" alignment="3" min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="btnEnviarLetra" max="32767" attributes="0"/>
                   </Group>
+                  <Component id="textMsg" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                   <Component id="btnEnviar" alignment="1" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -188,8 +186,11 @@
           <Dimension value="[20, 40]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="textLetraKeyPressed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnEnviar1">
+    <Component class="javax.swing.JButton" name="btnEnviarLetra">
       <Properties>
         <Property name="text" type="java.lang.String" value="ENVIAR"/>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -197,7 +198,7 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviar1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEnviarLetraActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="labelApelido1">

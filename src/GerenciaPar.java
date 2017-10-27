@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package projetosd;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -21,8 +20,6 @@ public class GerenciaPar extends Thread{
     
     
     void printMsg(String Cliente, String msg) throws IOException, InterruptedException{
-        
-            
         synchronized(this){//synchronized block
             if(msg.contains("FOMAR PAR")){
                 if(Cliente.equals("Cliente 1")){
@@ -34,18 +31,37 @@ public class GerenciaPar extends Thread{
                     Adversario2 = msg.replace("FOMAR PAR", "");
                     c2.setName(Adversario2);
                     
-                    c2.out.writeUTF("Seu adversário é: "+Adversario1+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n");
-                    c1.out.writeUTF("Seu adversário é: "+Adversario2+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n");
+                    c2.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario1+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
+                    c1.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario2+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
+                    c1.out.writeUTF("suaVEZ");
                 }                
             }
-            else{
-                try{
+            else if(msg.contains("areaMsg")){
+                    String msgtst = msg.replace("areaMsg", "");
+                    System.out.println("Gerencia["+this.getName()+"]-"+msgtst);
+
+                    c1.out.writeUTF(msg);
+                    c2.out.writeUTF(msg);
+            }
+            else if(msg.contains("areaForca")){
+                    msg = msg.replace("areaForca", "areaForcaLetra:");
                     System.out.println("Gerencia["+this.getName()+"]-"+msg);
 
                     c1.out.writeUTF(msg);
                     c2.out.writeUTF(msg);
-                    
-                }catch(Exception e){System.out.println(e);}
+            }
+            else if(msg.contains("suaVEZ")){
+                    System.out.println("Gerencia["+this.getName()+"]-"+msg);
+                    if(msg.replace("suaVEZ", "").equals(Adversario1)){
+                        c2.out.writeUTF("suaVEZ");
+                    }
+                    if(msg.replace("suaVEZ", "").equals(Adversario2)){
+                        c1.out.writeUTF("suaVEZ");
+                    }
+            }
+            else{
+                c1.out.writeUTF(msg);
+                c2.out.writeUTF(msg);
                 
             }
         }

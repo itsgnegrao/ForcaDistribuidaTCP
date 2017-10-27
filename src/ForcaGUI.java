@@ -5,7 +5,6 @@
  * @Data: 29/09/2017
  */
 
-package projetosd;
 
 import java.awt.Color;
 import static java.awt.event.KeyEvent.*;
@@ -39,12 +38,12 @@ public class ForcaGUI extends javax.swing.JFrame {
         labelApelido.setText(Apelido);
         
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.exibeMsg("Bem vindo: "+Apelido+"\nAguardando Adversário...\n");
+        this.exibeMsg("areaMsgBem vindo: "+Apelido+"\nAguardando Adversário...\n");
         
         textMsg.setEnabled(false);
         btnEnviar.setEnabled(false);
         textLetra.setEnabled(false);
-        btnEnviar1.setEnabled(false);
+        btnEnviarLetra.setEnabled(false);
         areaForca.setEnabled(false);
        
         //inicializa a lista de palavras reservadas
@@ -61,17 +60,30 @@ public class ForcaGUI extends javax.swing.JFrame {
     //Funcao para exibir uma mensagens na tela
     public synchronized void exibeMsg(String msg){
         if(msg.equals("Par encontrado!\n")){
-            client.EnviaMsg("FOMAR PAR"+Apelido);
-            textMsg.setEnabled(true);
-            btnEnviar.setEnabled(true);
-            textLetra.setEnabled(true);
-            btnEnviar1.setEnabled(true);
-            areaForca.setEnabled(true);
+                client.EnviaMsg("FOMAR PAR"+Apelido);
+                textMsg.setEnabled(true);
+                btnEnviar.setEnabled(true);
+                areaForca.setEnabled(true);
         }
         
-        areaMsg.append(msg);             
-        textMsg.setText("");
-        textMsg.requestFocus();
+        if(msg.contains("areaMsg")){
+            msg = msg.replace("areaMsg", "");
+            
+            areaMsg.append(msg);             
+            textMsg.setText("");
+            textMsg.requestFocus(); 
+        }
+        else if(msg.contains("areaForca")){
+            msg = msg.replace("areaForcaLetra:", "");
+            areaForca.append(msg);
+        }
+        else if(msg.contains("suaVEZ")){
+            textLetra.setEnabled(true);
+            textLetra.requestFocus();
+            btnEnviarLetra.setEnabled(true);
+        }
+        
+        
     }
     
      //funcao de formatacao da string de mensagem para adicionar apelido
@@ -105,7 +117,7 @@ public class ForcaGUI extends javax.swing.JFrame {
         areaForca = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         textLetra = new javax.swing.JTextField();
-        btnEnviar1 = new javax.swing.JButton();
+        btnEnviarLetra = new javax.swing.JButton();
         labelApelido1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -116,7 +128,7 @@ public class ForcaGUI extends javax.swing.JFrame {
         areaMsg.setColumns(20);
         areaMsg.setLineWrap(true);
         areaMsg.setRows(5);
-        areaMsg.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CHAT", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        areaMsg.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CHAT", 2, 0));
         areaMsg.setRequestFocusEnabled(false);
         jScrollPane1.setViewportView(areaMsg);
 
@@ -142,7 +154,7 @@ public class ForcaGUI extends javax.swing.JFrame {
         areaForca.setEditable(false);
         areaForca.setColumns(20);
         areaForca.setRows(5);
-        areaForca.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FORCA", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        areaForca.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FORCA", 2, 0));
         areaForca.setRequestFocusEnabled(false);
         jScrollPane2.setViewportView(areaForca);
 
@@ -151,12 +163,17 @@ public class ForcaGUI extends javax.swing.JFrame {
 
         textLetra.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         textLetra.setMinimumSize(new java.awt.Dimension(20, 40));
+        textLetra.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textLetraKeyPressed(evt);
+            }
+        });
 
-        btnEnviar1.setText("ENVIAR");
-        btnEnviar1.setPreferredSize(new java.awt.Dimension(55, 40));
-        btnEnviar1.addActionListener(new java.awt.event.ActionListener() {
+        btnEnviarLetra.setText("ENVIAR");
+        btnEnviarLetra.setPreferredSize(new java.awt.Dimension(55, 40));
+        btnEnviarLetra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEnviar1ActionPerformed(evt);
+                btnEnviarLetraActionPerformed(evt);
             }
         });
 
@@ -179,7 +196,7 @@ public class ForcaGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEnviar1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnEnviarLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -213,12 +230,11 @@ public class ForcaGUI extends javax.swing.JFrame {
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(textMsg, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnEnviar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnEnviarLetra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(textMsg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -234,14 +250,24 @@ public class ForcaGUI extends javax.swing.JFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         if(reserved.contains(textMsg.getText())){
-            client.EnviaMsg(formatString(Apelido,textMsg.getText(),false));
+            client.EnviaMsg("areaMsg"+formatString(Apelido,textMsg.getText(),false));
         }
-        else client.EnviaMsg(formatString(Apelido,textMsg.getText(),true));
+        else client.EnviaMsg("areaMsg"+formatString(Apelido,textMsg.getText(),true));
     }//GEN-LAST:event_btnEnviarActionPerformed
 
-    private void btnEnviar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviar1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEnviar1ActionPerformed
+    private void btnEnviarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarLetraActionPerformed
+        textLetra.setEnabled(false);
+        btnEnviarLetra.setEnabled(false);
+        textLetra.setText("");
+        client.EnviaMsg("areaForca"+textLetra.getText());
+        client.EnviaMsg("suaVEZ"+Apelido);
+    }//GEN-LAST:event_btnEnviarLetraActionPerformed
+
+    private void textLetraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textLetraKeyPressed
+        if (evt.getKeyCode() == VK_ENTER){
+            btnEnviarLetra.doClick();
+        }
+    }//GEN-LAST:event_textLetraKeyPressed
 
     /**
      * @param args the command line arguments
@@ -286,7 +312,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     private javax.swing.JTextArea areaForca;
     private javax.swing.JTextArea areaMsg;
     private javax.swing.JButton btnEnviar;
-    private javax.swing.JButton btnEnviar1;
+    private javax.swing.JButton btnEnviarLetra;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

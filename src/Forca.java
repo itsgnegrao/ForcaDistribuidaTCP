@@ -1,5 +1,3 @@
-package projetosd;
-
 import java.util.Random;
 
 /**
