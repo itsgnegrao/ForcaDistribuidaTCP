@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 import java.util.ArrayList;
 
 /**
@@ -12,35 +11,44 @@ import java.util.ArrayList;
  * @author jennifer
  */
 public class ListaPalavrasDicas {
-    PalavraDica lista[] = {
-        new PalavraDica("hinoceronte", "animal"),
-        new PalavraDica("cavalo", "animal"),
-        new PalavraDica("tartaruga", "animal"),
-        new PalavraDica("raposa", "animal"),
-        new PalavraDica("boizinho", "pequeno animal"),
-        new PalavraDica("cachorrao", "grande animal"),
-        new PalavraDica("jacare", "reptil"),
-        new PalavraDica("morango", "fruta"),
-        new PalavraDica("melancia", "fruta"),
-        new PalavraDica("maracuja", "fruta"),
-        new PalavraDica("carambola", "fruta"),
-        new PalavraDica("abacaxi", "fruta"),
-        new PalavraDica("felicidade", "sentimento"),
-        new PalavraDica("tristeza", "sentimento"),
-        new PalavraDica("alegria", "sentimento"),
-        new PalavraDica("raiva", "sentimento"),
-        new PalavraDica("piloto", "profissao"),
-        new PalavraDica("professor", "profissao"),
-        new PalavraDica("jornalista", "profissao"),
-        new PalavraDica("jogador", "profissao"),
-        new PalavraDica("dinossauro", "reptil pre-historico"),
-        new PalavraDica("albatroz", "ave procelariidia"),
-        new PalavraDica("yugoslavia", "pais"),
-        new PalavraDica("uzbequistao", "ex-republica sovietica da asia central"),
-        new PalavraDica("artico", "norte"),
-        new PalavraDica("antartica", "sul"),
-        new PalavraDica("vida social", "nao tem quando se estuda na UTF"),
-        new PalavraDica("algema", "prendedor"),
-        new PalavraDica("aerodromo", "aviao"),
-    };
+
+    ArrayList<PalavraDica> lista;
+
+    public ListaPalavrasDicas() {
+        lista.add(new PalavraDica("hinoceronte", "animal"));
+        lista.add(new PalavraDica("hinoceronte", "animal"));
+        lista.add(new PalavraDica("cavalo", "animal"));
+        lista.add(new PalavraDica("tartaruga", "animal"));
+        lista.add(new PalavraDica("raposa", "animal"));
+        lista.add(new PalavraDica("boizinho", "pequeno animal"));
+        lista.add(new PalavraDica("cachorrao", "grande animal"));
+        lista.add(new PalavraDica("jacare", "reptil"));
+        lista.add(new PalavraDica("morango", "fruta"));
+        lista.add(new PalavraDica("melancia", "fruta"));
+        lista.add(new PalavraDica("maracuja", "fruta"));
+        lista.add(new PalavraDica("carambola", "fruta"));
+        lista.add(new PalavraDica("abacaxi", "fruta"));
+        lista.add(new PalavraDica("felicidade", "sentimento"));
+        lista.add(new PalavraDica("tristeza", "sentimento"));
+        lista.add(new PalavraDica("alegria", "sentimento"));
+        lista.add(new PalavraDica("raiva", "sentimento"));
+        lista.add(new PalavraDica("piloto", "profissao"));
+        lista.add(new PalavraDica("professor", "profissao"));
+        lista.add(new PalavraDica("jornalista", "profissao"));
+        lista.add(new PalavraDica("jogador", "profissao"));
+        lista.add(new PalavraDica("dinossauro", "reptil pre-historico"));
+        lista.add(new PalavraDica("albatroz", "ave procelariidia"));
+        lista.add(new PalavraDica("yugoslavia", "pais"));
+        lista.add(new PalavraDica("uzbequistao", "ex-republica sovietica da asia central"));
+        lista.add(new PalavraDica("artico", "norte"));
+        lista.add(new PalavraDica("antartica", "sul"));
+        lista.add(new PalavraDica("vida social", "nao tem quando se estuda na UTF"));
+        lista.add(new PalavraDica("algema", "prendedor"));
+        lista.add(new PalavraDica("aerodromo", "aviao"));
+    }
+
+    public ArrayList<PalavraDica> getLista() {
+        return lista;
+    }
+    
 }

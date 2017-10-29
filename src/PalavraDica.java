@@ -10,8 +10,8 @@
  * @author jennifer
  */
 public class PalavraDica {
-    private final String palavra;
-    private final String dica;
+    private  String palavra;
+    private  String dica;
 
     public PalavraDica(String palavra, String dica) {
         this.palavra = palavra;
