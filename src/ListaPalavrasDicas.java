@@ -42,7 +42,6 @@ public class ListaPalavrasDicas {
         lista.add(new PalavraDica("uzbequistao", "ex-republica sovietica da asia central"));
         lista.add(new PalavraDica("artico", "norte"));
         lista.add(new PalavraDica("antartica", "sul"));
-        lista.add(new PalavraDica("vida social", "nao tem quando se estuda na UTF"));
         lista.add(new PalavraDica("algema", "prendedor"));
         lista.add(new PalavraDica("aerodromo", "aviao"));
     }
