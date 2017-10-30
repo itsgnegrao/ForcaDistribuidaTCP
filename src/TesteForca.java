@@ -9,5 +9,10 @@
  * @author jennifer
  */
 public class TesteForca {
-    Forca forca = new Forca();
+
+    public static void main(String[] args) {
+        
+        Forca forca = new Forca();
+
+    }
 }
