@@ -8,12 +8,19 @@ import java.util.Random;
  */
 public class Forca {
 
-    private ListaPalavrasDicas lpd = new ListaPalavrasDicas();
-    private ArrayList<PalavraDica> listaPalavrasDicas = lpd.getLista();
-    private int qtdPalavras = listaPalavrasDicas.size();
+    private ListaPalavrasDicas lpd;
+    private ArrayList<PalavraDica> listaPalavrasDicas;
+    private int qtdPalavras;
    
     private String palavra;
     private String dica;
+
+    public Forca() {
+        this.lpd = new ListaPalavrasDicas();
+        this.listaPalavrasDicas = lpd.getLista();
+        this.qtdPalavras = listaPalavrasDicas.size();
+        sorteiaPalavraDica();
+    }
     
     private void sorteiaPalavraDica() {
         Random random =  new Random();
@@ -23,6 +30,16 @@ public class Forca {
         this.palavra = listaPalavrasDicas.get(pos).getPalavra();
         this.dica = listaPalavrasDicas.get(pos).getDica();
     }
+
+    public String getPalavra() {
+        return palavra;
+        
+    }
+
+    public String getDica() {
+        return dica;
+    }
+   
     
     
 

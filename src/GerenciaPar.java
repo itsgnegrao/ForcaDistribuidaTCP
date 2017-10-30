@@ -18,6 +18,8 @@ public class GerenciaPar extends Thread{
     TaskThread c2;
     String Adversario2 = "";
     
+    Forca forca; //instancia do jogo
+    
     
     void printMsg(String Cliente, String msg) throws IOException, InterruptedException{
         synchronized(this){//synchronized block
@@ -31,8 +33,20 @@ public class GerenciaPar extends Thread{
                     Adversario2 = msg.replace("FOMAR PAR", "");
                     c2.setName(Adversario2);
                     
+                    //envia o nome do adversário, apenas debug
                     c2.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario1+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
                     c1.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario2+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
+                   
+                    //Adicionar o jogo aqui
+                    forca = new Forca();
+                    String dica = "DICADOJOGO"+forca.getDica();
+                    c1.out.writeUTF(dica);
+                    c2.out.writeUTF(dica);
+                    System.out.println("Jogo Criando para: "+Adversario1+" x "+Adversario2);
+                    System.out.println("Dica: "+forca.getDica());
+                    System.out.println("Palavra: "+forca.getPalavra()+"\n\n");
+                    
+                    //chamar a vez do usuario 1
                     c1.out.writeUTF("suaVEZ");
                 }                
             }

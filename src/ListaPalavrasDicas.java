@@ -15,6 +15,7 @@ public class ListaPalavrasDicas {
     ArrayList<PalavraDica> lista;
 
     public ListaPalavrasDicas() {
+        lista = new ArrayList<PalavraDica>();
         lista.add(new PalavraDica("hinoceronte", "animal"));
         lista.add(new PalavraDica("hinoceronte", "animal"));
         lista.add(new PalavraDica("cavalo", "animal"));

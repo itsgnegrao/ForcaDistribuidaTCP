@@ -80,13 +80,20 @@ public class ForcaGUI extends javax.swing.JFrame {
 
     //Funcao para exibir uma mensagens na tela
     public synchronized void exibeMsg(String msg) {
+        //inicialização do jogo
         if (msg.equals("Par encontrado!\n")) {
+            areaMsg.append(msg);
             client.EnviaMsg("FOMAR PAR" + Apelido);
             textMsg.setEnabled(true);
             btnEnviar.setEnabled(true);
             areaForca.setEnabled(true);
             textDica.setEnabled(true);
         }
+        if(msg.contains("DICADOJOGO")){
+            textDica.setText(msg.replace("DICADOJOGO", ""));
+        }
+        
+        
 
         if (msg.contains("areaMsg")) {
             msg = msg.replace("areaMsg", "");
