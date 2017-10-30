@@ -38,13 +38,14 @@ public class ForcaGUI extends javax.swing.JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.exibeMsg("areaMsgBem vindo: " + Apelido + "\nAguardando Adversário...\n");
 
+        //seta a visibilidade dos campos enquanto não for criado o jogo
         textMsg.setEnabled(false);
         btnEnviar.setEnabled(false);
-        textLetra.setEnabled(false);
-        btnEnviarLetra.setEnabled(false);
         areaForca.setEnabled(false);
-        textchute.setEnabled(false);
-        btnEnviarChute.setEnabled(false);
+        textDica.setEnabled(false);
+        
+        //função absração pra suaVEZ
+        setEnable(false);
 
         //inicializa a lista de palavras reservadas
         reserved = new ArrayList<>();
@@ -56,6 +57,26 @@ public class ForcaGUI extends javax.swing.JFrame {
         reserved.add("DOWN");
         reserved.add("FILES");
     }
+    
+    private void setEnable(boolean flag){
+        if(flag){
+            textchute.setEnabled(true);
+            btnEnviarLetra.setEnabled(true);
+            textLetra.setEnabled(true);
+            btnEnviarChute.setEnabled(true);
+            textchute.setText("");
+            textLetra.setText("");
+            textLetra.requestFocus();
+        }
+        else{
+            textchute.setEnabled(false);
+            btnEnviarLetra.setEnabled(false);
+            textLetra.setEnabled(false);
+            btnEnviarChute.setEnabled(false);
+            textchute.setText("");
+            textLetra.setText("");
+        }
+    }
 
     //Funcao para exibir uma mensagens na tela
     public synchronized void exibeMsg(String msg) {
@@ -64,6 +85,7 @@ public class ForcaGUI extends javax.swing.JFrame {
             textMsg.setEnabled(true);
             btnEnviar.setEnabled(true);
             areaForca.setEnabled(true);
+            textDica.setEnabled(true);
         }
 
         if (msg.contains("areaMsg")) {
@@ -76,11 +98,7 @@ public class ForcaGUI extends javax.swing.JFrame {
             msg = msg.replace("areaForcaLetra:", "");
             areaForca.append(msg);
         } else if (msg.contains("suaVEZ")) {
-            textLetra.setEnabled(true);
-            textLetra.requestFocus();
-            btnEnviarLetra.setEnabled(true);
-            textchute.setEnabled(false);
-            btnEnviarChute.setEnabled(false);
+            setEnable(true);
         }
 
     }
@@ -181,11 +199,11 @@ public class ForcaGUI extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         textLetra = new javax.swing.JTextField();
         btnEnviarLetra = new javax.swing.JButton();
-        labelApelido1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         textchute = new javax.swing.JTextField();
         btnEnviarChute = new javax.swing.JButton();
+        textDica = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Jogo da Forca");
@@ -225,7 +243,7 @@ public class ForcaGUI extends javax.swing.JFrame {
         jScrollPane2.setViewportView(areaForca);
 
         jLabel2.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
-        jLabel2.setText("Chutar a palavra:");
+        jLabel2.setText("Chutar:");
 
         textLetra.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         textLetra.setMinimumSize(new java.awt.Dimension(20, 40));
@@ -236,18 +254,17 @@ public class ForcaGUI extends javax.swing.JFrame {
         });
 
         btnEnviarLetra.setText("ENVIAR");
-        btnEnviarLetra.setPreferredSize(new java.awt.Dimension(55, 40));
+        btnEnviarLetra.setMaximumSize(new java.awt.Dimension(55, 30));
+        btnEnviarLetra.setMinimumSize(new java.awt.Dimension(55, 30));
+        btnEnviarLetra.setPreferredSize(new java.awt.Dimension(55, 30));
         btnEnviarLetra.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEnviarLetraActionPerformed(evt);
             }
         });
 
-        labelApelido1.setFont(new java.awt.Font("Noto Sans", 0, 20)); // NOI18N
-        labelApelido1.setText("Qualquer um");
-
-        jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 24)); // NOI18N
-        jLabel3.setText("DICA:");
+        jLabel3.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
+        jLabel3.setText("Dica:");
 
         jLabel4.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         jLabel4.setText("Letra:");
@@ -259,6 +276,16 @@ public class ForcaGUI extends javax.swing.JFrame {
         });
 
         btnEnviarChute.setText("ENVIAR");
+        btnEnviarChute.setMaximumSize(new java.awt.Dimension(55, 30));
+        btnEnviarChute.setMinimumSize(new java.awt.Dimension(55, 30));
+        btnEnviarChute.setPreferredSize(new java.awt.Dimension(55, 30));
+        btnEnviarChute.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEnviarChuteActionPerformed(evt);
+            }
+        });
+
+        textDica.setEditable(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -268,77 +295,74 @@ public class ForcaGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(72, 72, 72)
-                                .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnEnviarLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(labelApelido))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE))
+                        .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(labelApelido1))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(textMsg)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap())
+                        .addComponent(labelApelido)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(textchute, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnEnviarChute, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane2)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(7, 7, 7)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel3))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(textDica)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnEnviarLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(textchute, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(btnEnviarChute, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(textMsg)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(22, 22, 22)
-                    .addComponent(jLabel4)
-                    .addContainerGap(768, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(labelApelido)
-                    .addComponent(jLabel3)
-                    .addComponent(labelApelido1))
-                .addGap(20, 20, 20)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(labelApelido))
+                        .addGap(20, 20, 20)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnEnviarLetra, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(textMsg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnEnviarChute, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(textchute)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel2)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel3)
+                            .addComponent(textDica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(13, 13, 13))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(textMsg, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(textLetra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEnviarLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(textchute)
+                        .addComponent(jLabel2))
+                    .addComponent(btnEnviarChute, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(403, Short.MAX_VALUE)
-                    .addComponent(jLabel4)
-                    .addGap(67, 67, 67)))
         );
 
         pack();
@@ -359,9 +383,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void btnEnviarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarLetraActionPerformed
-        textLetra.setEnabled(false);
-        btnEnviarLetra.setEnabled(false);
-        textLetra.setText("");
+        setEnable(false);
         client.EnviaMsg("areaForca" + textLetra.getText());
         client.EnviaMsg("suaVEZ" + Apelido);
     }//GEN-LAST:event_btnEnviarLetraActionPerformed
@@ -375,6 +397,12 @@ public class ForcaGUI extends javax.swing.JFrame {
     private void textchuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textchuteActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_textchuteActionPerformed
+
+    private void btnEnviarChuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarChuteActionPerformed
+        setEnable(false);
+        client.EnviaMsg("chutarPalavra" + textchute.getText());
+        client.EnviaMsg("suaVEZ" + Apelido);
+    }//GEN-LAST:event_btnEnviarChuteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -428,7 +456,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelApelido;
-    private javax.swing.JLabel labelApelido1;
+    private javax.swing.JTextField textDica;
     private javax.swing.JTextField textLetra;
     private static javax.swing.JTextField textMsg;
     private javax.swing.JTextField textchute;
