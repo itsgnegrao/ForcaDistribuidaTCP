@@ -79,7 +79,8 @@ public class ForcaGUI extends javax.swing.JFrame {
     }
 
     //Funcao para exibir uma mensagens na tela
-    public synchronized void exibeMsg(String msg) {
+    public synchronized void exibeMsg(String msg) throws InterruptedException {
+        System.out.println(msg);
         //inicialização do jogo
         if (msg.equals("Par encontrado!\n")) {
             areaMsg.append(msg);
@@ -102,10 +103,10 @@ public class ForcaGUI extends javax.swing.JFrame {
         } else if (msg.contains("areaForca")) {
             msg = msg.replace("areaForca", "");
             areaForca.setText(msg);
+            this.wait(100);
         } else if (msg.contains("suaVEZ")) {
             setEnable(true);
         }
-
     }
 
     //funcao de formatacao da string de mensagem para adicionar apelido
@@ -326,8 +327,8 @@ public class ForcaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void btnEnviarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarLetraActionPerformed
-        client.EnviaMsg("areaForcaletra" + textLetra.getText());
-        client.EnviaMsg("suaVEZ" + Apelido);
+        client.EnviaMsg("areaForcaletra" + textLetra.getText()+"suaVEZ" + Apelido);
+        //client.EnviaMsg("suaVEZ" + Apelido);
         setEnable(false);
     }//GEN-LAST:event_btnEnviarLetraActionPerformed
 

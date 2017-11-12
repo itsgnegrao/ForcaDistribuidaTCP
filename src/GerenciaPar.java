@@ -23,6 +23,7 @@ public class GerenciaPar extends Thread{
     
     void printMsg(String Cliente, String msg) throws IOException, InterruptedException{
         synchronized(this){//synchronized block
+            System.out.println("MSGGG: "+msg);
             if(msg.contains("FOMAR PAR")){
                 if(Cliente.equals("Cliente 1")){
                     Adversario1 = msg.replace("FOMAR PAR", "");
@@ -61,20 +62,21 @@ public class GerenciaPar extends Thread{
                     c2.out.writeUTF(msg);
             }
             else if(msg.contains("areaForcaletra")){
-                
-                String letra = msg.replace("areaForcaletra", "");
+                msg = msg.replace("areaForcaletra", "");
+                char letra = msg.charAt(0);
                 System.out.println("Gerencia["+this.getName()+"]-"+msg);
-                forca.setLetra(letra);
-            }
-            
-            else if(msg.contains("suaVEZ")){
-                    System.out.println("Gerencia["+this.getName()+"]-"+msg);
-                    if(msg.replace("suaVEZ", "").equals(Adversario1)){
+                forca.setLetra(letra+"");
+                
+                msg = msg.substring(1);
+                if(msg.contains("suaVEZ")){
+                    String cliente = msg.replace("suaVEZ", "");
+                    if(cliente.equals(Adversario1)){
                         c2.out.writeUTF("suaVEZ");
                     }
-                    if(msg.replace("suaVEZ", "").equals(Adversario2)){
+                    if(cliente.equals(Adversario2)){
                         c1.out.writeUTF("suaVEZ");
                     }
+                }
             }
             else if(Cliente.equals("Forca")){
                 c1.out.writeUTF("areaForca"+msg);
