@@ -40,10 +40,11 @@ public class GerenciaPar extends Thread{
                     forca = new Forca(this);
                     this.wait(300);
                     String dica = "DICADOJOGO"+forca.getDica();
-                    System.out.println(dica);
+
                     c1.out.writeUTF(dica);
                     c2.out.writeUTF(dica);
                     
+                    //debug
                     System.out.println("Jogo Criando para: "+Adversario1+" x "+Adversario2);
                     System.out.println("Dica: "+forca.getDica());
                     System.out.println("Palavra: "+forca.getPalavra()+"\n\n");
@@ -64,8 +65,8 @@ public class GerenciaPar extends Thread{
                 String letra = msg.replace("areaForcaletra", "");
                 System.out.println("Gerencia["+this.getName()+"]-"+msg);
                 forca.setLetra(letra);
-
             }
+            
             else if(msg.contains("suaVEZ")){
                     System.out.println("Gerencia["+this.getName()+"]-"+msg);
                     if(msg.replace("suaVEZ", "").equals(Adversario1)){

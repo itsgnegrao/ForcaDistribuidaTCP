@@ -20,7 +20,7 @@ public class Forca extends Thread{
     private String palavra;
     private String dica;
     private String letra;
-    private Boolean bool = true;
+    private volatile Boolean temosLetra = false;
     
     private int erros = 0;
     private int pontosA = 0;
@@ -40,7 +40,9 @@ public class Forca extends Thread{
         int vez = 0;
         
         while(erros<7){
-            if(letra != null){
+            
+            if(temosLetra){
+                System.out.println("LETRA: "+letra);
                 
                 if(vez%2 !=0){
                     System.out.println("Jogador A");
@@ -65,15 +67,18 @@ public class Forca extends Thread{
                     Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
+
                 System.out.format("Pacar-> A: %d, B: %d", pontosA, pontosB);
                 if(verificaFinal(palavraRisquinhos)){
                     break;
                 }
+                
+                temosLetra = false;
                 letra = null;
-            }
-        System.out.println("A palavra era: " + palavra);
-            
+            }            
         }
+        
+        System.out.println("A palavra era: " + palavra);
     }
     
     public void nova_rodada(){
@@ -103,22 +108,22 @@ public class Forca extends Thread{
 
     public void setLetra(String letra) {
         this.letra = letra;
+        this.temosLetra = true;
     }
     
-
     private String encontraLetraSubstitui(String letra, String palavraRisquinhos) {
         String novaPalavra = "";
         System.out.println("letra: "+letra+" ,palrisq:"+palavraRisquinhos);
         for (int i = 0; i < palavra.length(); i ++) {
             if (letra.equals(this.palavra.charAt(i)+"")) {
                 novaPalavra += letra;
-                System.out.println("letra "+letra+" eh igual a "+this.palavra.charAt(i));
+                //System.out.println("letra "+letra+" eh igual a "+this.palavra.charAt(i));
                 acertouLetra = true;
             } else if(palavraRisquinhos.equals("_")) {
                 novaPalavra += "_";
             } else{
                 novaPalavra += palavraRisquinhos.charAt(i);
-                System.out.println("letra "+letra+" eh diferente de "+this.palavra.charAt(i));
+                //System.out.println("letra "+letra+" eh diferente de "+this.palavra.charAt(i));
             }
         }
         return novaPalavra;

@@ -100,7 +100,8 @@ public class ForcaGUI extends javax.swing.JFrame {
             textMsg.setText("");
             textMsg.requestFocus();
         } else if (msg.contains("areaForca")) {
-            areaForca.setText(msg.replace("areaForca", ""));
+            msg = msg.replace("areaForca", "");
+            areaForca.setText(msg);
         } else if (msg.contains("suaVEZ")) {
             setEnable(true);
         }
@@ -177,8 +178,8 @@ public class ForcaGUI extends javax.swing.JFrame {
         jLabel1.setText("Apelido:");
 
         areaForca.setEditable(false);
-        areaForca.setColumns(20);
-        areaForca.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
+        areaForca.setColumns(2);
+        areaForca.setFont(new java.awt.Font("Noto Sans", 1, 24)); // NOI18N
         areaForca.setRows(5);
         areaForca.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FORCA", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         areaForca.setRequestFocusEnabled(false);
