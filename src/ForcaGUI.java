@@ -28,7 +28,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     public ForcaGUI() throws InterruptedException {
 
         Apelido = JOptionPane.showInputDialog(rootPane, "Digite o seu Apelido:", "Adicionar Apelido", 3);
-
+        
         client = new TCPClient(this, "127.0.0.1", 7896);  // armazena conexão do cliente
 
         initComponents();
@@ -93,8 +93,6 @@ public class ForcaGUI extends javax.swing.JFrame {
             textDica.setText(msg.replace("DICADOJOGO", ""));
         }
         
-        
-
         if (msg.contains("areaMsg")) {
             msg = msg.replace("areaMsg", "");
 
@@ -102,8 +100,7 @@ public class ForcaGUI extends javax.swing.JFrame {
             textMsg.setText("");
             textMsg.requestFocus();
         } else if (msg.contains("areaForca")) {
-            msg = msg.replace("areaForcaLetra:", "");
-            areaForca.append(msg);
+            areaForca.setText(msg.replace("areaForca", ""));
         } else if (msg.contains("suaVEZ")) {
             setEnable(true);
         }
@@ -126,69 +123,6 @@ public class ForcaGUI extends javax.swing.JFrame {
         textMsg.requestFocus();
 
         return msg_format;
-    }
-
-    //Desenha a forca de acordo com a palavra passada por parametro e aquantidade de erros
-    // a palavra deve estar no formato, por exemplo, "_a_a" para a palavra "casa" com a letra "a" já chutada
-    public synchronized void desenhaForca(String palavra, int erros) {
-        if(erros == 0)areaForca.setText("+-------+\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|"+palavra);
-
-        if(erros == 1)areaForca.setText("+-------+\n"
-                                    + "|       O\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|"+palavra);
-        if(erros == 2)areaForca.setText("+-------+\n"
-                                    + "|       O\n"
-                                    + "|       |\n"
-                                    + "|       |\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|"+palavra);
-        if(erros == 3)areaForca.setText("+-------+\n"
-                                    + "|       O\n"
-                                    + "|      /|\n"
-                                    + "|       |\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|"+palavra);
-        if(erros == 4)areaForca.setText("+-------+\n"
-                                    + "|       O\n"
-                                    + "|      /|\\ \n"
-                                    + "|       |\n"
-                                    + "|\n"
-                                    + "|\n"
-                                    + "|"+palavra);
-        if(erros == 5)areaForca.setText("+-------+\n"
-                                    + "|       O\n"
-                                    + "|      /|\\ \n"
-                                    + "|       |\n"
-                                    + "|      /\n"
-                                    + "|\n"
-                                    + "|"+palavra);
-        if(erros == 6)areaForca.setText("+-------+\n"
-                                    + "|       O\n"
-                                    + "|      /|\\ \n"
-                                    + "|       |\n"
-                                    + "|      / \\ \n"
-                                    + "|\n"
-                                    + "|"+palavra);
-        else areaForca.setText("+-------+\n"
-                                    + "|       O   VOCE FOI\n"
-                                    + "|       /|\\  ENFORCADO(A)\n"
-                                    + "|        |      :(\n"
-                                    + "|       / \\ \n"
-                                    + "|\n"
-                                    + "| "+palavra);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -244,6 +178,7 @@ public class ForcaGUI extends javax.swing.JFrame {
 
         areaForca.setEditable(false);
         areaForca.setColumns(20);
+        areaForca.setFont(new java.awt.Font("Noto Sans", 1, 14)); // NOI18N
         areaForca.setRows(5);
         areaForca.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FORCA", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         areaForca.setRequestFocusEnabled(false);
@@ -308,7 +243,7 @@ public class ForcaGUI extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(7, 7, 7)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -390,9 +325,9 @@ public class ForcaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void btnEnviarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarLetraActionPerformed
-        setEnable(false);
-        client.EnviaMsg("areaForca" + textLetra.getText());
+        client.EnviaMsg("areaForcaletra" + textLetra.getText());
         client.EnviaMsg("suaVEZ" + Apelido);
+        setEnable(false);
     }//GEN-LAST:event_btnEnviarLetraActionPerformed
 
     private void textLetraKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textLetraKeyPressed

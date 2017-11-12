@@ -1,69 +1,87 @@
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author jennifer
  */
-public class Forca {
+public class Forca extends Thread{
 
-    private ForcaGUI forcaGUI;
+    private GerenciaPar gerenpar;
     private ListaPalavrasDicas lpd = new ListaPalavrasDicas();
     private ArrayList<PalavraDica> listaPalavrasDicas = lpd.getLista();
     private int qtdPalavras = listaPalavrasDicas.size();
 
     private String palavra;
     private String dica;
+    private String letra;
+    private Boolean bool = true;
+    
     private int erros = 0;
     private int pontosA = 0;
     private int pontosB = 0;
     private boolean acertouLetra = false;
     private boolean jogador = true;
 
-    public Forca(ForcaGUI forcaGUI) {
-        this.forcaGUI = forcaGUI;
+    public Forca(GerenciaPar gerenc) {
+        this.gerenpar = gerenc;
+        this.start();
     }
+    
+    public void run(){
+        rodada();
+        String palavraRisquinhos = fazRisquinhosPalavra(palavra);
 
-    public Forca() {
-        jogo();
-    }
+        int vez = 0;
+        
+        while(erros<7){
+            if(letra != null){
+                
+                if(vez%2 !=0){
+                    System.out.println("Jogador A");
+                    jogador = true;
+                    vez++;
+                }else{
+                    System.out.println("Jogador B");
+                    jogador = false;
+                    vez++;
+                }
+                System.out.println("Dica: "+dica);
 
-    private void jogo() {
-        for (int i = 1; i <= 5; i++) {
-            rodada();
+                
+                palavraRisquinhos = encontraLetraSubstitui(letra, palavraRisquinhos);
+                incrementaPontos(jogador);
+
+                try {
+                    desenhaForca(palavraRisquinhos, erros);
+                } catch (IOException ex) {
+                    Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                System.out.format("Pacar-> A: %d, B: %d", pontosA, pontosB);
+                if(verificaFinal(palavraRisquinhos)){
+                    break;
+                }
+                letra = null;
+            }
+        System.out.println("A palavra era: " + palavra);
+            
         }
+    }
+    
+    public void nova_rodada(){
+        rodada();
     }
 
     private void rodada() {
         sorteiaPalavraDica();
-        String palavraRisquinhos = fazRisquinhosPalavra(palavra);
-
-        String letra;
-        int vez = 0;
-        while (erros < 7) {
-            if(vez%2 !=0){
-                System.out.println("Jogador A");
-                jogador = true;
-                vez++;
-            }else{
-                System.out.println("Jogador B");
-                jogador = false;
-                vez++;
-            }
-            System.out.println("Dica: "+dica);
-            letra = pedeLetra();
-            palavraRisquinhos = encontraLetraSubstitui(letra, palavraRisquinhos);
-            incrementaPontos(jogador);
-            desenhaForca(palavraRisquinhos, erros);
-            System.out.format("Pacar-> A: %d, B: %d", pontosA, pontosB);
-            if(verificaFinal(palavraRisquinhos)){
-                break;
-            }
-        }
-        System.out.println("A palavra era: " + palavra);
-
     }
 
     public void sorteiaPalavraDica() {
@@ -83,18 +101,10 @@ public class Forca {
         return palavraRisquinhos;
     }
 
-    private String pedeLetra() {
-        String letra;
-        do {
-            System.out.print("\n\nDigite uma letra: ");
-            Scanner s = new Scanner(System.in);
-            letra = s.next();
-            if (letra.length() > 1) {
-                System.out.println("\n\nDigite apenas UMA letra: ");
-            }
-        } while (letra.length() != 1);
-        return letra;
+    public void setLetra(String letra) {
+        this.letra = letra;
     }
+    
 
     private String encontraLetraSubstitui(String letra, String palavraRisquinhos) {
         String novaPalavra = "";
@@ -144,9 +154,9 @@ public class Forca {
         }
     }
 
-    private void desenhaForca(String palavra, int erros) {
+    private void desenhaForca(String palavra, int erros) throws IOException, InterruptedException {
         if (erros == 0) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|\n"
                     + "|\n"
                     + "|\n"
@@ -156,7 +166,7 @@ public class Forca {
         }
 
         if (erros == 1) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|       O\n"
                     + "|\n"
                     + "|\n"
@@ -165,7 +175,7 @@ public class Forca {
                     + "|" + palavraRiscos(palavra));
         }
         if (erros == 2) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|       O\n"
                     + "|       |\n"
                     + "|       |\n"
@@ -174,7 +184,7 @@ public class Forca {
                     + "|" + palavraRiscos(palavra));
         }
         if (erros == 3) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|       O\n"
                     + "|      /|\n"
                     + "|       |\n"
@@ -183,7 +193,7 @@ public class Forca {
                     + "|" + palavraRiscos(palavra));
         }
         if (erros == 4) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|       O\n"
                     + "|      /|\\ \n"
                     + "|       |\n"
@@ -192,7 +202,7 @@ public class Forca {
                     + "|" + palavraRiscos(palavra));
         }
         if (erros == 5) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|       O\n"
                     + "|      /|\\ \n"
                     + "|       |\n"
@@ -201,7 +211,7 @@ public class Forca {
                     + "|" + palavraRiscos(palavra));
         }
         if (erros == 6) {
-            System.out.println("+-------+\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
                     + "|       O\n"
                     + "|      /|\\ \n"
                     + "|       |\n"
@@ -210,8 +220,9 @@ public class Forca {
                     + "|" + palavraRiscos(palavra));
         }
         if (erros == 7) {
-            System.out.println("+-------+\n"
-                    + "|       O   VOCE FOI\n"
+            gerenpar.printMsg("Forca", "+-------+\n"
+                    + "|        |\n"
+                    + "|       O-   VOCE FOI\n"
                     + "|       /|\\  ENFORCADO(A)\n"
                     + "|        |      :(\n"
                     + "|       / \\ \n"

@@ -36,12 +36,14 @@ public class GerenciaPar extends Thread{
                     //envia o nome do adversário, apenas debug
                     c2.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario1+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
                     c1.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario2+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
-                   
-                    //Adicionar o jogo aqui
-                    forca = new Forca();
+  
+                    forca = new Forca(this);
+                    this.wait(300);
                     String dica = "DICADOJOGO"+forca.getDica();
+                    System.out.println(dica);
                     c1.out.writeUTF(dica);
                     c2.out.writeUTF(dica);
+                    
                     System.out.println("Jogo Criando para: "+Adversario1+" x "+Adversario2);
                     System.out.println("Dica: "+forca.getDica());
                     System.out.println("Palavra: "+forca.getPalavra()+"\n\n");
@@ -57,12 +59,12 @@ public class GerenciaPar extends Thread{
                     c1.out.writeUTF(msg);
                     c2.out.writeUTF(msg);
             }
-            else if(msg.contains("areaForca")){
-                    msg = msg.replace("areaForca", "areaForcaLetra:");
-                    System.out.println("Gerencia["+this.getName()+"]-"+msg);
+            else if(msg.contains("areaForcaletra")){
+                
+                String letra = msg.replace("areaForcaletra", "");
+                System.out.println("Gerencia["+this.getName()+"]-"+msg);
+                forca.setLetra(letra);
 
-                    c1.out.writeUTF(msg);
-                    c2.out.writeUTF(msg);
             }
             else if(msg.contains("suaVEZ")){
                     System.out.println("Gerencia["+this.getName()+"]-"+msg);
@@ -72,6 +74,10 @@ public class GerenciaPar extends Thread{
                     if(msg.replace("suaVEZ", "").equals(Adversario2)){
                         c1.out.writeUTF("suaVEZ");
                     }
+            }
+            else if(Cliente.equals("Forca")){
+                c1.out.writeUTF("areaForca"+msg);
+                c2.out.writeUTF("areaForca"+msg);
             }
             else{
                 c1.out.writeUTF(msg);

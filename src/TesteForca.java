@@ -13,6 +13,8 @@ public class TesteForca {
     public static void main(String[] args) {
         
         Forca forca = new Forca();
+        System.out.println(forca.getDica());
+        System.out.println(forca.getPalavra());
 
     }
 }
