@@ -59,6 +59,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     }
     
     private void setEnable(boolean flag){
+        
         if(flag){
             textchute.setEnabled(true);
             btnEnviarLetra.setEnabled(true);
@@ -79,7 +80,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     }
 
     //Funcao para exibir uma mensagens na tela
-    public synchronized void exibeMsg(String msg) throws InterruptedException {
+    public void exibeMsg(String msg) throws InterruptedException {
         System.out.println(msg);
         //inicialização do jogo
         if (msg.equals("Par encontrado!\n")) {
@@ -103,7 +104,6 @@ public class ForcaGUI extends javax.swing.JFrame {
         } else if (msg.contains("areaForca")) {
             msg = msg.replace("areaForca", "");
             areaForca.setText(msg);
-            //this.wait(100);
         } else if (msg.contains("suaVEZ")) {
             setEnable(true);
         }
@@ -344,9 +344,9 @@ public class ForcaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_textchuteActionPerformed
 
     private void btnEnviarChuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarChuteActionPerformed
-        setEnable(false);
         client.EnviaMsg("chutarPalavra" + textchute.getText());
         client.EnviaMsg("suaVEZ" + Apelido);
+        
     }//GEN-LAST:event_btnEnviarChuteActionPerformed
 
     /**

@@ -24,13 +24,16 @@ public class Forca extends Thread {
     private String palavra;
     private String dica;
     private String letra;
-    private volatile Boolean temosLetra = false;
+    private String palavraChute;
+    private volatile boolean temosLetra = false;
+    private volatile boolean temosPalavra = false;
 
     private int erros = 0;
     private int pontosA = 0;
     private int pontosB = 0;
     private boolean acertouLetra = false;
     private boolean jogador = true;
+    
 
     public Forca(GerenciaPar gerenc) {
         this.gerenpar = gerenc;
@@ -59,7 +62,7 @@ public class Forca extends Thread {
         sorteiaPalavraDica();
             
         desenhaForca(fazRisquinhosPalavra(palavra), erros);
-        this.sleep(100);
+        //this.sleep(100);
         gerenpar.printMsg("", "DICADOJOGO"+this.getDica());
         
         String palavraRisquinhos = fazRisquinhosPalavra(palavra);
@@ -67,6 +70,16 @@ public class Forca extends Thread {
         int vez = 0;
 
         while (erros < 7) {
+            
+            if (temosPalavra){
+                temosPalavra= false;
+                if (acertouPalavra(palavraChute)) {
+                    gerenpar.printMsg("", "areaMsgPalavra encontrada!!!\nProxima Rodada...\n");
+                    palavraChute = null;
+                    break;
+                }
+                palavraChute = null;
+            }
 
             if (temosLetra) {
                 System.out.println("LETRA: " + letra);
@@ -139,6 +152,11 @@ public class Forca extends Thread {
     public void setLetra(String letra) {
         this.letra = letra.toUpperCase();
         this.temosLetra = true;
+    }
+    
+    public void setPalavrachute(String palavra) {
+        this.palavraChute = palavra.toUpperCase();
+        this.temosPalavra = true;
     }
 
     private String encontraLetraSubstitui(String letra, String palavraRisquinhos) {

@@ -80,6 +80,10 @@ public class GerenciaPar extends Thread{
                     }
                 }
             }
+            else if(msg.contains("chutarPalavra")){
+                msg = msg.replace("chutarPalavra", "");
+                forca.setPalavrachute(msg);
+            }
             else if(Cliente.equals("Forca")){
                 c1.out.writeUTF("areaForca"+msg);
                 c2.out.writeUTF("areaForca"+msg);
