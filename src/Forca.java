@@ -235,14 +235,17 @@ public class Forca extends Thread {
             gerenpar.printMsg("Forca", "\n\n\n\n"
                     + pontos + "\n"
                     + this.gerenpar.Adversario1.toUpperCase() + " VENCEU!!");
+            gerenpar.printMsg("", "FIMDEJOGO");
         } else if (pontosGeralB > pontosGeralA) {
             gerenpar.printMsg("Forca", "\n\n\n\n"
                     + pontos + "\n"
                     + this.gerenpar.Adversario2.toUpperCase() + " VENCEU!!");
+            gerenpar.printMsg("", "FIMDEJOGO");
         } else {
             gerenpar.printMsg("\n\n\n\n"
                     + pontos + "\n"
                     + "Forca", "EMPATOU!!");
+            gerenpar.printMsg("", "FIMDEJOGO");
         }
         return true;
     }

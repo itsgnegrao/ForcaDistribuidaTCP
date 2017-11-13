@@ -83,10 +83,15 @@ public class ForcaGUI extends javax.swing.JFrame {
             areaForca.setEnabled(true);
             textDica.setEnabled(true);
         }
+        
         else if(msg.contains("DICADOJOGO")){
             textDica.setText(msg.replace("DICADOJOGO", ""));
         }
         
+        else if(msg.equals("FIMDEJOGO")){
+            JOptionPane.showMessageDialog(rootPane, "JOGO FINALIZADO!!!", "Fim de Jogo", 2);
+            dispose();
+        }        
         
         else if (msg.contains("areaMsg")) {
             msg = msg.replace("areaMsg", "");
