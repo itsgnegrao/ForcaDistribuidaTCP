@@ -339,7 +339,7 @@ public class Forca extends Thread {
                     + "\n\nLetras já erradas: " + stringLetrasErradas());
         }
         if (erros == 7) {
-            gerenpar.printMsg("Forca", pontos + "\n"
+            gerenpar.printMsg("","areaMsg"+pontos + "\n"
                     + "+-------+\n"
                     + "|            |\n"
                     + "|          O-   VOCES FORAM\n"

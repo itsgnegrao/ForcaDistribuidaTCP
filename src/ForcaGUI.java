@@ -22,7 +22,6 @@ public class ForcaGUI extends javax.swing.JFrame {
     private static String ip; //ip fornecido pela Interface
     private static int porta; // porta fornecida pela interface
     private static TCPClient client; //cliente para alocação da classe controladora
-    private static ArrayList<String> reserved; //palavras de requisições reservadads
     private String Apelido;
 
     public ForcaGUI() throws InterruptedException {
@@ -44,18 +43,9 @@ public class ForcaGUI extends javax.swing.JFrame {
         areaForca.setEnabled(false);
         textDica.setEnabled(false);
         
-        //função absração pra suaVEZ
+        //função abstração pra suaVEZ
         setEnable(false);
 
-        //inicializa a lista de palavras reservadas
-        reserved = new ArrayList<>();
-
-        //adiciona palavras reservadas a lista
-        reserved.add("EXIT");
-        reserved.add("TIME");
-        reserved.add("DATA");
-        reserved.add("DOWN");
-        reserved.add("FILES");
     }
     
     private void setEnable(boolean flag){
@@ -80,8 +70,10 @@ public class ForcaGUI extends javax.swing.JFrame {
     }
 
     //Funcao para exibir uma mensagens na tela
-    public void exibeMsg(String msg) throws InterruptedException {
-        System.out.println(msg);
+    public synchronized void exibeMsg(String msg) throws InterruptedException {
+        //DEBUG
+        // System.out.println(msg);
+       
         //inicialização do jogo
         if (msg.equals("Par encontrado!\n")) {
             areaMsg.append(msg);
@@ -91,20 +83,25 @@ public class ForcaGUI extends javax.swing.JFrame {
             areaForca.setEnabled(true);
             textDica.setEnabled(true);
         }
-        if(msg.contains("DICADOJOGO")){
+        else if(msg.contains("DICADOJOGO")){
             textDica.setText(msg.replace("DICADOJOGO", ""));
         }
         
-        if (msg.contains("areaMsg")) {
+        
+        else if (msg.contains("areaMsg")) {
             msg = msg.replace("areaMsg", "");
 
             areaMsg.append(msg);
             textMsg.setText("");
             textMsg.requestFocus();
-        } else if (msg.contains("areaForca")) {
+        } 
+       
+        else if (msg.contains("areaForca")) {
             msg = msg.replace("areaForca", "");
             areaForca.setText(msg);
-        } else if (msg.contains("suaVEZ")) {
+        } 
+        
+        else if (msg.contains("suaVEZ")) {
             setEnable(true);
         }
     }
@@ -320,11 +317,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_textMsgKeyPressed
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
-        if (reserved.contains(textMsg.getText())) {
-            client.EnviaMsg("areaMsg" + formatString(Apelido, textMsg.getText(), false));
-        } else {
-            client.EnviaMsg("areaMsg" + formatString(Apelido, textMsg.getText(), true));
-        }
+        client.EnviaMsg("areaMsg" + formatString(Apelido, textMsg.getText(), true));
     }//GEN-LAST:event_btnEnviarActionPerformed
 
     private void btnEnviarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarLetraActionPerformed
@@ -346,6 +339,7 @@ public class ForcaGUI extends javax.swing.JFrame {
     private void btnEnviarChuteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarChuteActionPerformed
         client.EnviaMsg("chutarPalavra" + textchute.getText());
         client.EnviaMsg("suaVEZ" + Apelido);
+        setEnable(false);
         
     }//GEN-LAST:event_btnEnviarChuteActionPerformed
 
