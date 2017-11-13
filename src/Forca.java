@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Jogo da Forca
  * @author jennifer
  */
 public class Forca extends Thread {

@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.IOException;
 import java.net.Socket;
 
@@ -24,6 +18,8 @@ public class GerenciaPar extends Thread{
     void printMsg(String Cliente, String msg) throws IOException, InterruptedException{
         synchronized(this){//synchronized block
             System.out.println("MSGGG: "+msg);
+            
+            //incialização de um novo par
             if(msg.contains("FOMAR PAR")){
                 if(Cliente.equals("Cliente 1")){
                     Adversario1 = msg.replace("FOMAR PAR", "");
@@ -38,13 +34,9 @@ public class GerenciaPar extends Thread{
                     c2.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario1+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
                     c1.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario2+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
   
+                    //cria a instância e thread do jogo
                     forca = new Forca(this);
-                     /*
-                    String dica = "DICADOJOGO"+forca.getDica();
 
-                    c1.out.writeUTF(dica);
-                    c2.out.writeUTF(dica);*/
-                    
                     //debug
                     System.out.println("Jogo Criando para: "+Adversario1+" x "+Adversario2);
                     
@@ -52,6 +44,7 @@ public class GerenciaPar extends Thread{
                     c1.out.writeUTF("suaVEZ");
                 }                
             }
+            //mensagens destinadas a Area de Mensagens, CHAT
             else if(msg.contains("areaMsg")){
                     String msgtst = msg.replace("areaMsg", "");
                     System.out.println("Gerencia["+this.getName()+"]-"+msgtst);
@@ -59,6 +52,7 @@ public class GerenciaPar extends Thread{
                     c1.out.writeUTF(msg);
                     c2.out.writeUTF(msg);
             }
+            //Mensagens destinada ao Jogo contendo a letra
             else if(msg.contains("areaForcaletra")){
                 msg = msg.replace("areaForcaletra", "");
                 char letra = msg.charAt(0);
@@ -80,14 +74,17 @@ public class GerenciaPar extends Thread{
                     }
                 }
             }
+            //Chuta a palavra do jogo
             else if(msg.contains("chutarPalavra")){
                 msg = msg.replace("chutarPalavra", "");
                 forca.setPalavrachute(msg);
             }
+            //Mensagens destinada a area da Forca
             else if(Cliente.equals("Forca")){
                 c1.out.writeUTF("areaForca"+msg);
                 c2.out.writeUTF("areaForca"+msg);
             }
+            //Apenas Troca de Mensagens
             else{
                 c1.out.writeUTF(msg);
                 c2.out.writeUTF(msg);
@@ -96,7 +93,7 @@ public class GerenciaPar extends Thread{
         }
     }
 
-    public void setC1(TaskThread c1) {
+    public void setC1(TaskThread c1) throws IOException{
         this.c1 = c1;
     }
     
