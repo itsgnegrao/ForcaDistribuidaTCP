@@ -135,6 +135,8 @@ public class Forca extends Thread {
 
     private void inicializaRodada() {
         erros = 0;
+        pontosGeralA += pontosRodA;
+        pontosGeralB += pontosRodB;
         pontosRodA = 0;
         pontosRodB = 0;
         letrasCorretas = new ArrayList<>();
@@ -193,10 +195,8 @@ public class Forca extends Thread {
             letrasCorretas.add(letra);
             if (jogador) {
                 pontosRodA++;//contabiliza os pontos de A
-                pontosGeralA += pontosRodA;
             } else {
                 pontosRodB++;//contabiliza os pontos de B
-                pontosGeralB += pontosRodB;
             }
             acertouLetra = false;
         } else {//não encontrou a letra
@@ -217,9 +217,9 @@ public class Forca extends Thread {
         if (palavra.toUpperCase().equals(novaPalavra.toUpperCase())) {
             System.out.println(palavra.toUpperCase() + " é IGUAL a " + novaPalavra.toUpperCase());
             if (jogador) {
-                pontosRodB += 10;
+                pontosRodA += 5;
             } else {
-                pontosRodA += 10;
+                pontosRodB += 5;
             }
             return true;
         } else {
