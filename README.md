@@ -14,17 +14,17 @@ Clone ou faça o Download do projeto em .zip (via terminal/manual) para sua maqu
     ```
   - Descompacte e abra a pasta do projeto:
     ```
-    unzip ForcaDistribuidaTCP-master.zip
+    unzip ForcaDistribuidaTCP-master.zip -d ForcaDistribuidaTCP
     ```
 ## Passos Para Execução:
   Abra a pasta do codigo fonte do projeto via Terminal.
   ```
-  cd ForcaDistribuidaTCP-master/src
+  cd ForcaDistribuidaTCP/src
   ```
   Compile o cliente e o servidor.
   ```
-  javac ForcaGUI.java TCPClient.java 
-  javac TCPServer.java Forca.java GerenciaPar.java PalavraDica.java ListaPalavrasDicas.java 
+  javac ForcaGUI.java TCPClient.java
+  javac TCPServer.java Forca.java GerenciaPar.java PalavraDica.java ListaPalavrasDicas.java
   ```
   Execute o Servidor.
   ```
@@ -34,6 +34,6 @@ Clone ou faça o Download do projeto em .zip (via terminal/manual) para sua maqu
   ```
   java ForcaGUI
   ```
-  
+
 ## Autor
 [Gabriel Negrão Silva](https://github.com/itsgnegrao), [Jennifer Izabel](https://github.com/JenniferIzabel).
