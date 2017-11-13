@@ -76,9 +76,6 @@ public class Forca extends Thread {
             if (temosPalavra) {
                 temosPalavra = false;
                 if (acertouPalavra(palavraChute)) {
-                    palavraRisquinhos = encontraLetraSubstitui(letra, palavraChute);
-                    desenhaForca(palavraRisquinhos, erros);
-                    this.sleep(500);
                     gerenpar.printMsg("", "areaMsgPalavra encontrada!!!\nProxima Rodada...\n");
                     palavraChute = null;
                     break;
@@ -104,7 +101,8 @@ public class Forca extends Thread {
                 if (letrasCorretas.contains(letra) || letrasErradas.contains(letra)) {
                     continue;
                 }
-
+                
+                //ve se tem a letra
                 palavraRisquinhos = encontraLetraSubstitui(letra, palavraRisquinhos);
                 incrementaPontos(jogador);
 
@@ -144,7 +142,6 @@ public class Forca extends Thread {
         temosLetra = false;
         temosPalavra = false;
         acertouLetra = false;
-        jogador = true;
     }
 
     public void sorteiaPalavraDica() {
@@ -217,9 +214,9 @@ public class Forca extends Thread {
         if (palavra.toUpperCase().equals(novaPalavra.toUpperCase())) {
             System.out.println(palavra.toUpperCase() + " é IGUAL a " + novaPalavra.toUpperCase());
             if (jogador) {
-                pontosRodA += 5;
-            } else {
                 pontosRodB += 5;
+            } else {
+                pontosRodA += 5;
             }
             return true;
         } else {
