@@ -42,7 +42,7 @@ public class Forca extends Thread {
 
     public void run() {
         int i = 0;
-        while (i < 2) {
+        while (i < 3) {
             try {
                 rodada();
                 i += 1;
@@ -227,6 +227,10 @@ public class Forca extends Thread {
 
     private boolean verificaFinal() throws IOException, InterruptedException {
         String pontos = "Placar Final:\n" + gerenpar.Adversario1 + ": " + pontosGeralA + "  " + gerenpar.Adversario2 + ": " + pontosGeralB + "\n";
+        
+        pontosGeralA += pontosRodA;
+        pontosGeralB += pontosRodB;
+        
         if (pontosGeralA > pontosGeralB) {
             gerenpar.printMsg("Forca", "\n\n\n\n"
                     + pontos + "\n"
