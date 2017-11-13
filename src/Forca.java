@@ -2,7 +2,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,11 +28,12 @@ public class Forca extends Thread {
     private volatile boolean temosPalavra = false;
 
     private int erros = 0;
-    private int pontosA = 0;
-    private int pontosB = 0;
+    private int pontosRodA = 0;
+    private int pontosRodB = 0;
+    private int pontosGeralA = 0;
+    private int pontosGeralB = 0;
     private boolean acertouLetra = false;
     private boolean jogador = true;
-    
 
     public Forca(GerenciaPar gerenc) {
         this.gerenpar = gerenc;
@@ -45,7 +45,7 @@ public class Forca extends Thread {
         while (i < 2) {
             try {
                 rodada();
-                i +=1;
+                i += 1;
             } catch (IOException | InterruptedException ex) {
                 Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -59,21 +59,26 @@ public class Forca extends Thread {
     }
 
     private void rodada() throws IOException, InterruptedException {
+        inicializaRodada();
+
         sorteiaPalavraDica();
-            
+
         desenhaForca(fazRisquinhosPalavra(palavra), erros);
         //this.sleep(100);
-        gerenpar.printMsg("", "DICADOJOGO"+this.getDica());
-        
+        gerenpar.printMsg("", "DICADOJOGO" + this.getDica());
+
         String palavraRisquinhos = fazRisquinhosPalavra(palavra);
 
         int vez = 0;
 
         while (erros < 7) {
-            
-            if (temosPalavra){
-                temosPalavra= false;
+
+            if (temosPalavra) {
+                temosPalavra = false;
                 if (acertouPalavra(palavraChute)) {
+                    palavraRisquinhos = encontraLetraSubstitui(letra, palavraChute);
+                    desenhaForca(palavraRisquinhos, erros);
+                    this.sleep(500);
                     gerenpar.printMsg("", "areaMsgPalavra encontrada!!!\nProxima Rodada...\n");
                     palavraChute = null;
                     break;
@@ -107,10 +112,10 @@ public class Forca extends Thread {
                     desenhaForca(palavraRisquinhos, erros);
                     if (acertouPalavra(palavraRisquinhos)) {
                         gerenpar.printMsg("", "areaMsgPalavra encontrada!!!\nProxima Rodada...\n");
-                        
+
                         temosLetra = false;
                         letra = null;
-                        
+
                         break;
                     }
                 } catch (IOException ex) {
@@ -119,17 +124,25 @@ public class Forca extends Thread {
                     Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
-                System.out.format("Pacar-> A: %d, B: %d", pontosA, pontosB);
+                System.out.format("Pacar-> A: %d, B: %d", pontosRodA, pontosRodB);
 
                 temosLetra = false;
                 letra = null;
-            } 
+            }
         }
+
+    }
+
+    private void inicializaRodada() {
         erros = 0;
+        pontosRodA = 0;
+        pontosRodB = 0;
         letrasCorretas = new ArrayList<>();
         letrasErradas = new ArrayList<>();
-
-        //System.out.println("A palavra era: " + palavra);
+        temosLetra = false;
+        temosPalavra = false;
+        acertouLetra = false;
+        jogador = true;
     }
 
     public void sorteiaPalavraDica() {
@@ -153,7 +166,7 @@ public class Forca extends Thread {
         this.letra = letra.toUpperCase();
         this.temosLetra = true;
     }
-    
+
     public void setPalavrachute(String palavra) {
         this.palavraChute = palavra.toUpperCase();
         this.temosPalavra = true;
@@ -179,9 +192,11 @@ public class Forca extends Thread {
         if (acertouLetra) {// encontrou a letra
             letrasCorretas.add(letra);
             if (jogador) {
-                pontosA++;//contabiliza os pontos de A
+                pontosRodA++;//contabiliza os pontos de A
+                pontosGeralA += pontosRodA;
             } else {
-                pontosB++;//contabiliza os pontos de B
+                pontosRodB++;//contabiliza os pontos de B
+                pontosGeralB += pontosRodB;
             }
             acertouLetra = false;
         } else {//não encontrou a letra
@@ -198,28 +213,28 @@ public class Forca extends Thread {
         return novaPalavra;
     }
 
-    private boolean acertouPalavra(String palavraRisquinhos) throws IOException, InterruptedException {
-        if (palavra.toUpperCase().equals(palavraRisquinhos.toUpperCase())) {
-            System.out.println(palavra.toUpperCase()+" é IGUAL a "+palavraRisquinhos.toUpperCase());
+    private boolean acertouPalavra(String novaPalavra) throws IOException, InterruptedException {
+        if (palavra.toUpperCase().equals(novaPalavra.toUpperCase())) {
+            System.out.println(palavra.toUpperCase() + " é IGUAL a " + novaPalavra.toUpperCase());
             if (jogador) {
-                pontosA += 10;
+                pontosRodB += 10;
             } else {
-                pontosB += 10;
+                pontosRodA += 10;
             }
             return true;
         } else {
-            System.out.println(palavra.toUpperCase()+" é DIFERENTE de "+palavraRisquinhos.toUpperCase());
+            System.out.println(palavra.toUpperCase() + " é DIFERENTE de " + novaPalavra.toUpperCase());
             return false;
         }
     }
 
     private boolean verificaFinal() throws IOException, InterruptedException {
-        String pontos = gerenpar.Adversario1 + ": " + pontosA + "  " + gerenpar.Adversario2 + ": " + pontosB + "\n";
-        if (pontosA > pontosB) {
+        String pontos = "Placar Final:\n" + gerenpar.Adversario1 + ": " + pontosGeralA + "  " + gerenpar.Adversario2 + ": " + pontosGeralB + "\n";
+        if (pontosGeralA > pontosGeralB) {
             gerenpar.printMsg("Forca", "\n\n\n\n"
                     + pontos + "\n"
                     + this.gerenpar.Adversario1.toUpperCase() + " VENCEU!!");
-        } else if (pontosB > pontosA) {
+        } else if (pontosGeralB > pontosGeralA) {
             gerenpar.printMsg("Forca", "\n\n\n\n"
                     + pontos + "\n"
                     + this.gerenpar.Adversario2.toUpperCase() + " VENCEU!!");
@@ -240,9 +255,12 @@ public class Forca extends Thread {
     }
 
     private void desenhaForca(String palavra, int erros) throws IOException, InterruptedException {
-        String pontos = gerenpar.Adversario1 + ": " + pontosA + "  " + gerenpar.Adversario2 + ": " + pontosB + "\n";
+        String pontos = "   Placar Geral\n"
+                + gerenpar.Adversario1 + ": " + pontosGeralA + "  " + gerenpar.Adversario2 + ": " + pontosGeralB + "\n\n"
+                + "   Placar Rodada\n"
+                + gerenpar.Adversario1 + ": " + pontosRodA + "  " + gerenpar.Adversario2 + ": " + pontosRodB + "\n";
         if (erros == 0) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|\n"
                     + "|\n"
@@ -253,7 +271,7 @@ public class Forca extends Thread {
         }
 
         if (erros == 1) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|          O\n"
                     + "|\n"
@@ -265,7 +283,7 @@ public class Forca extends Thread {
             );
         }
         if (erros == 2) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|          O\n"
                     + "|           |\n"
@@ -276,7 +294,7 @@ public class Forca extends Thread {
                     + "\n\nLetras já erradas: " + stringLetrasErradas());
         }
         if (erros == 3) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|          O\n"
                     + "|          /|\n"
@@ -287,7 +305,7 @@ public class Forca extends Thread {
                     + "\n\nLetras já erradas: " + stringLetrasErradas());
         }
         if (erros == 4) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|          O\n"
                     + "|          /|\\ \n"
@@ -298,7 +316,7 @@ public class Forca extends Thread {
                     + "\n\nLetras já erradas: " + stringLetrasErradas());
         }
         if (erros == 5) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|          O\n"
                     + "|          /|\\ \n"
@@ -309,7 +327,7 @@ public class Forca extends Thread {
                     + "\n\nLetras já erradas: " + stringLetrasErradas());
         }
         if (erros == 6) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|          O\n"
                     + "|          /|\\ \n"
@@ -320,7 +338,7 @@ public class Forca extends Thread {
                     + "\n\nLetras já erradas: " + stringLetrasErradas());
         }
         if (erros == 7) {
-            gerenpar.printMsg("Forca", pontos
+            gerenpar.printMsg("Forca", pontos + "\n"
                     + "+-------+\n"
                     + "|            |\n"
                     + "|          O-   VOCES FORAM\n"
