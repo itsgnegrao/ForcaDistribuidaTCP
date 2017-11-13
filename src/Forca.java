@@ -87,7 +87,7 @@ public class Forca extends Thread {
                     if (acertouPalavra(palavraRisquinhos)) {
                         System.out.println("ACERTOU A PALAVRA");
                         //TimeUnit.SECONDS.sleep(7);
-                        continue;
+                        break;
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
