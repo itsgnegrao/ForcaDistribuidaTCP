@@ -103,7 +103,7 @@ public class ForcaGUI extends javax.swing.JFrame {
         } else if (msg.contains("areaForca")) {
             msg = msg.replace("areaForca", "");
             areaForca.setText(msg);
-            this.wait(100);
+            //this.wait(100);
         } else if (msg.contains("suaVEZ")) {
             setEnable(true);
         }
@@ -180,7 +180,7 @@ public class ForcaGUI extends javax.swing.JFrame {
 
         areaForca.setEditable(false);
         areaForca.setColumns(2);
-        areaForca.setFont(new java.awt.Font("Noto Sans", 1, 24)); // NOI18N
+        areaForca.setFont(new java.awt.Font("Noto Sans", 1, 18)); // NOI18N
         areaForca.setRows(5);
         areaForca.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "FORCA", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
         areaForca.setRequestFocusEnabled(false);

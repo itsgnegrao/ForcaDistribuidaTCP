@@ -39,21 +39,29 @@ public class Forca extends Thread {
 
     public void run() {
         int i = 0;
-        while (i < 3) {
-            rodada();
+        while (i < 2) {
+            try {
+                rodada();
+                i +=1;
+            } catch (IOException | InterruptedException ex) {
+                Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         try {
             verificaFinal();
-        } catch (IOException ex) {
-            Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             Logger.getLogger(Forca.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
 
-    private void rodada() {
+    private void rodada() throws IOException, InterruptedException {
         sorteiaPalavraDica();
+            
+        desenhaForca(fazRisquinhosPalavra(palavra), erros);
+        this.sleep(100);
+        gerenpar.printMsg("", "DICADOJOGO"+this.getDica());
+        
         String palavraRisquinhos = fazRisquinhosPalavra(palavra);
 
         int vez = 0;
@@ -85,8 +93,11 @@ public class Forca extends Thread {
                 try {
                     desenhaForca(palavraRisquinhos, erros);
                     if (acertouPalavra(palavraRisquinhos)) {
-                        System.out.println("ACERTOU A PALAVRA");
-                        //TimeUnit.SECONDS.sleep(7);
+                        gerenpar.printMsg("", "areaMsgPalavra encontrada!!!\nProxima Rodada...\n");
+                        
+                        temosLetra = false;
+                        letra = null;
+                        
                         break;
                     }
                 } catch (IOException ex) {
@@ -99,10 +110,13 @@ public class Forca extends Thread {
 
                 temosLetra = false;
                 letra = null;
-            }
+            } 
         }
+        erros = 0;
+        letrasCorretas = new ArrayList<>();
+        letrasErradas = new ArrayList<>();
 
-        System.out.println("A palavra era: " + palavra);
+        //System.out.println("A palavra era: " + palavra);
     }
 
     public void sorteiaPalavraDica() {

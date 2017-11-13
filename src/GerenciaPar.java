@@ -39,16 +39,14 @@ public class GerenciaPar extends Thread{
                     c1.out.writeUTF("areaMsg"+"Seu adversário é: "+Adversario2+"\nPara conversar com seu adversário utilize o chat..\nBom Jogo!\n\n");
   
                     forca = new Forca(this);
-                    this.wait(300);
+                     /*
                     String dica = "DICADOJOGO"+forca.getDica();
 
                     c1.out.writeUTF(dica);
-                    c2.out.writeUTF(dica);
+                    c2.out.writeUTF(dica);*/
                     
                     //debug
                     System.out.println("Jogo Criando para: "+Adversario1+" x "+Adversario2);
-                    System.out.println("Dica: "+forca.getDica());
-                    System.out.println("Palavra: "+forca.getPalavra()+"\n\n");
                     
                     //chamar a vez do usuario 1
                     c1.out.writeUTF("suaVEZ");
@@ -65,11 +63,15 @@ public class GerenciaPar extends Thread{
                 msg = msg.replace("areaForcaletra", "");
                 char letra = msg.charAt(0);
                 System.out.println("Gerencia["+this.getName()+"]-"+msg);
+                
                 forca.setLetra(letra+"");
                 
                 msg = msg.substring(1);
+                
                 if(msg.contains("suaVEZ")){
+                    
                     String cliente = msg.replace("suaVEZ", "");
+                    
                     if(cliente.equals(Adversario1)){
                         c2.out.writeUTF("suaVEZ");
                     }
